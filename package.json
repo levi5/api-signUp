@@ -6,6 +6,7 @@
   "devDependencies": {
     "@types/jest": "^26.0.10",
     "@types/node": "^14.6.2",
+    "eslint": "^7.8.1",
     "git-commit-msg-linter": "^2.5.2",
     "husky": "^4.2.5",
     "jest": "^26.4.2",
@@ -15,6 +16,6 @@
   },
   "scripts": {
     "test": "jest --passWithNoTests --watch",
-    "test:staged":"jest --passWithNoTests"
+    "test:staged": "jest --passWithNoTests"
   }
 }
