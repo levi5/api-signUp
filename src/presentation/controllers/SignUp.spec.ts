@@ -128,7 +128,7 @@ describe('SignUp Controller', () => {
 
 	test('return error 500 if  EmailValidator throws', () => {
 		class EmailValidatorStub implements EmailValidator {
-			isValid (email:string) {
+			isValid (email:string): Error {
 				throw new Error();
 			}
 		}
