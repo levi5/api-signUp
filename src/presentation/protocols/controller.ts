@@ -1,5 +1,5 @@
-import { HttpRequest, HttpResponse } from './http';
+import { IHttpRequest, IHttpResponse } from './http';
 
 export interface ISignUpController{
-    handle (httpRequest:HttpRequest):HttpResponse;
+    handle (httpRequest:IHttpRequest):IHttpResponse;
 }
