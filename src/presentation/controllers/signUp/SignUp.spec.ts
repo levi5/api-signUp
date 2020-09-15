@@ -21,9 +21,9 @@ const makeAddAccount = ():IAddAccount => {
 	class AddAccountStub implements IAddAccount {
 		add (account:IAddAccountModel): IAccountModel {
 			const fakeAccount = {
-				id: 'id_valid',
+				id: 'valid_id',
 				name: 'valid_name',
-				email: 'valid_email'
+				email: 'valid_@email.com'
 			};
 			return fakeAccount;
 		}
@@ -45,7 +45,7 @@ const makeSut = ():SutTypes => {
 };
 
 describe('SignUp Controller', () => {
-	test('return error 400 if the name is not provided', () => {
+	test('Should return error 400 if the name is not provided', () => {
 		const { sut } = makeSut();
 		const httpRequest:IHttpRequest = {
 			body: {
@@ -60,7 +60,7 @@ describe('SignUp Controller', () => {
 		expect(httpResponse.body).toEqual(new MissingParamError('name'));
 	});
 
-	test('return error 400 if the email is not provided', () => {
+	test('Should return error 400 if the email is not provided', () => {
 		const { sut } = makeSut();
 		const httpRequest:IHttpRequest = {
 			body: {
@@ -76,7 +76,7 @@ describe('SignUp Controller', () => {
 		expect(httpResponse.body).toEqual(new MissingParamError('email'));
 	});
 
-	test('return error 400 if the password is not provided', () => {
+	test('Should return error 400 if the password is not provided', () => {
 		const { sut } = makeSut();
 		const httpRequest:IHttpRequest = {
 			body: {
@@ -92,7 +92,7 @@ describe('SignUp Controller', () => {
 		expect(httpResponse.body).toEqual(new MissingParamError('password'));
 	});
 
-	test('return error 400 if the password confirmation fails', () => {
+	test('Should return error 400 if the password confirmation fails', () => {
 		const { sut } = makeSut();
 		const httpRequest:IHttpRequest = {
 			body: {
@@ -109,7 +109,7 @@ describe('SignUp Controller', () => {
 		expect(httpResponse.body).toEqual(new InvalidParamError('passwordConfirmation'));
 	});
 
-	test('return error 400 if the password confirmation is not provided', () => {
+	test('Should return error 400 if the password confirmation is not provided', () => {
 		const { sut } = makeSut();
 		const httpRequest:IHttpRequest = {
 			body: {
@@ -125,7 +125,7 @@ describe('SignUp Controller', () => {
 		expect(httpResponse.body).toEqual(new MissingParamError('passwordConfirmation'));
 	});
 
-	test('return error 400 if an invalid email is provided', () => {
+	test('Should return error 400 if an invalid email is provided', () => {
 		const { sut, emailValidatorStub } = makeSut();
 		jest.spyOn(emailValidatorStub, 'isValid').mockReturnValueOnce(false);
 
@@ -161,7 +161,7 @@ describe('SignUp Controller', () => {
 		expect(isValid).toBeCalledWith('any_@email.com');
 	});
 
-	test('return error 500 if  EmailValidator throws', () => {
+	test('Should return error 500 if  EmailValidator throws', () => {
 		const { sut, emailValidatorStub } = makeSut();
 		jest.spyOn(emailValidatorStub, 'isValid').mockImplementation(() => {
 			throw new Error();
@@ -201,7 +201,7 @@ describe('SignUp Controller', () => {
 		});
 	});
 
-	test('return error 500 if  AddAccount throws', () => {
+	test('Should return error 500 if  AddAccount throws', () => {
 		const { sut, addAccountStub } = makeSut();
 		jest.spyOn(addAccountStub, 'add').mockImplementation(() => {
 			throw new Error();
@@ -219,5 +219,26 @@ describe('SignUp Controller', () => {
 		const httpResponse = sut.handle(httpRequest);
 		expect(httpResponse.statusCode).toBe(500);
 		expect(httpResponse.body).toEqual(new ServerError());
+	});
+
+	test('Should return 200 if valid data provided', () => {
+		const { sut } = makeSut();
+		const httpRequest:IHttpRequest = {
+			body: {
+				name: 'valid_name',
+				email: 'valid_@email.com',
+				password: 'valid_password',
+				passwordConfirmation: 'valid_password'
+			}
+
+		};
+
+		const httpResponse = sut.handle(httpRequest);
+		expect(httpResponse.statusCode).toBe(200);
+		expect(httpResponse.body).toEqual({
+			id: 'valid_id',
+			name: 'valid_name',
+			email: 'valid_@email.com'
+		});
 	});
 });
