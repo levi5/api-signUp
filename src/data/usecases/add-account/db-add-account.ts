@@ -11,7 +11,7 @@ constructor (encrypter: IEncrypter, addAccountRepository:IAddAccountRepository) 
 
 async add (account: IAddAccountModel):Promise<IAccountModel> {
 	const hashPassword = await this.encrypter.encrypt(account.password);
-	await this.addAccountRepository.add({ ...account, password: hashPassword });
-	return new Promise(resolve => resolve(null));
+	const accountResponse = await this.addAccountRepository.add({ ...account, password: hashPassword });
+	return accountResponse;
 }
 }
