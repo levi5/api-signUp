@@ -9,7 +9,7 @@ constructor (salt:number) {
 }
 
 async encrypt (password:string): Promise<string> {
-	await bcrypt.hash(password, this.salt);
-	return null;
+	const hash = await bcrypt.hash(password, this.salt);
+	return hash;
 }
 }
