@@ -1,8 +1,8 @@
-import { ISignUpController } from '../../presentation/protocols/controller';
+import { IController } from '../../presentation/protocols/controller';
 import { Request, Response } from 'express';
 import { IHttpRequest, IHttpResponse } from '../../presentation/protocols';
 
-export const adapterRoute = (controller: ISignUpController) => {
+export const adapterRoute = (controller: IController) => {
 	return async (req:Request, res:Response) => {
 		const httpRequest:IHttpRequest = {
 			body: req.body
