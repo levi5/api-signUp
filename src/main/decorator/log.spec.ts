@@ -9,7 +9,7 @@ interface SutTypes {
 
 const makeController = ():IController => {
 	class ControllerStub implements IController {
-		async handle (httpRequest:IHttpRequest):Promise<IHttpResponse> {
+		async handle (_httpRequest:IHttpRequest):Promise<IHttpResponse> {
 			const httpResponse:IHttpResponse = {
 				statusCode: 200,
 				body: {
