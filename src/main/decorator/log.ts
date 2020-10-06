@@ -1,7 +1,8 @@
 import { IController, IHttpRequest, IHttpResponse } from '../../presentation/protocols';
 
 export class LoggerControllerDecorator implements IController {
-	private readonly controller:IController ;
+	private readonly controller:IController;
+
 	constructor (controller:IController) {
 		this.controller = controller;
 	}
