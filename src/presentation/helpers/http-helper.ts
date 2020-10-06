@@ -8,9 +8,9 @@ export const badRequest = (error:Error): IHttpResponse => {
 	};
 };
 
-export const serverError = (): IHttpResponse => {
+export const serverError = (error:Error): IHttpResponse => {
 	return {
-		body: new ServerError(),
+		body: new ServerError(error.stack),
 		statusCode: 500
 	};
 };
