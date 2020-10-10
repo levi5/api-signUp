@@ -1,8 +1,8 @@
-import { IHttpRequest, IHttpResponse, ISignUpController, IAddAccount, IEmailValidator } from './signUp-protocols';
+import { IHttpRequest, IHttpResponse, IController, IAddAccount, IEmailValidator } from './signUp-protocols';
 import { MissingParamError, InvalidParamError } from '../../errors';
 import { badRequest, serverError, success } from '../../helpers/http-helper';
 
-export class SignUpController implements ISignUpController {
+export class SignUpController implements IController {
 	private readonly emailValidator:IEmailValidator;
 	private readonly addAccount:IAddAccount;
 

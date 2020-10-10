@@ -1,0 +1,13 @@
+import { IController, IHttpRequest, IHttpResponse } from '../../presentation/protocols';
+
+export class LoggerControllerDecorator implements IController {
+	private readonly controller:IController ;
+	constructor (controller:IController) {
+		this.controller = controller;
+	}
+
+	async handle (httpRequest: IHttpRequest): Promise<IHttpResponse> {
+		const httpResponse = await this.controller.handle(httpRequest);
+		return httpResponse;
+	}
+}
