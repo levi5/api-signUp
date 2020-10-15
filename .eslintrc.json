@@ -20,5 +20,6 @@
         "semi":["error", "always"],
         "indent": ["error", "tab"],
         "no-tabs": ["error", { "allowIndentationTabs": true }]
+        // "no-multi-spaces": [{"max":4,"maxEOF":0,"ignoreEOLComments":false}]
     }
 }
