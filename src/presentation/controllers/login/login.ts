@@ -10,15 +10,17 @@ constructor (emailValidator:IEmailValidator) {
 }
 
 async handle (httpRequest: IHttpRequest): Promise<IHttpResponse> {
-	if (!httpRequest.body.email) {
+	const { email, password } = httpRequest.body;
+
+	if (!email) {
 		return new Promise(resolve => resolve(badRequest(new MissingParamError('email'))));
 	}
 
-	if (!httpRequest.body.password) {
+	if (!password) {
 		return new Promise(resolve => resolve(badRequest(new MissingParamError('password'))));
 	}
 
-	const isValid = await this.emailValidator.isValid(httpRequest.body.email);
+	const isValid = await this.emailValidator.isValid(email);
 	if (!isValid) {
 		return new Promise(resolve => resolve(badRequest(new InvalidParamError('email'))));
 	}
