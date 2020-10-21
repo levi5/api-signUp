@@ -1,7 +1,6 @@
-import { IAuthentication } from '../../../domain/useCases/authentication';
 import { InvalidParamError, MissingParamError } from '../../errors';
 import { badRequest, serverError, unauthorized } from '../../helpers/http-helper';
-import { IEmailValidator, IHttpRequest } from '../signUp/signUp-protocols';
+import { IEmailValidator, IHttpRequest, IAuthentication } from './login-protocols';
 import { LoginController } from './login';
 
 interface SutTypes {
