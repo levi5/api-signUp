@@ -1,5 +1,5 @@
 import { SignUpController } from './SignUp';
-import { IAddAccount, IAddAccountModel, IAccountModel, IEmailValidator, IHttpRequest } from './signUp-protocols';
+import { IAddAccount, IAddAccountModel, IAccountModel, IEmailValidator, IHttpRequest, IValidation } from './signUp-protocols';
 import { InvalidParamError, MissingParamError, ServerError } from '../../errors';
 import { badRequest, serverError, success } from '../../helpers/http-helper';
 
@@ -7,6 +7,7 @@ interface SutTypes {
 	sut:SignUpController,
 	emailValidatorStub: IEmailValidator,
 	addAccountStub: IAddAccount,
+	validationStub: IValidation
 }
 
 const makeEmailValidator = ():IEmailValidator => {
@@ -27,6 +28,15 @@ const makeAddAccount = ():IAddAccount => {
 	return new AddAccountStub();
 };
 
+const makeValidation = ():IValidation => {
+	class ValidationStub implements IValidation {
+		validate (input:any): Error {
+			return null;
+		}
+	}
+	return new ValidationStub();
+};
+
 const makeFakeAccount = ():IAccountModel => (
 	{
 		id: 'valid_id',
@@ -40,11 +50,13 @@ const makeSut = ():SutTypes => {
 
 	const emailValidatorStub = makeEmailValidator();
 	const addAccountStub = makeAddAccount();
-	const sut = new SignUpController(emailValidatorStub, addAccountStub);
+	const validationStub = makeValidation();
+	const sut = new SignUpController(addAccountStub, validationStub, emailValidatorStub);
 	return {
 		sut,
 		emailValidatorStub,
-		addAccountStub
+		addAccountStub,
+		validationStub
 	};
 };
 
@@ -185,5 +197,14 @@ describe('SignUp Controller', () => {
 		const { sut } = makeSut();
 		const httpResponse = await sut.handle(makeFakeRequest());
 		expect(httpResponse).toEqual(success(makeFakeAccount()));
+	});
+
+	test('Should call AddAccount with correct values', () => {
+		const { sut, validationStub } = makeSut();
+		const validateSpy = jest.spyOn(validationStub, 'validate');
+		const httpRequest = makeFakeRequest();
+
+		sut.handle(httpRequest);
+		expect(validateSpy).toHaveBeenCalledWith(httpRequest.body);
 	});
 });
