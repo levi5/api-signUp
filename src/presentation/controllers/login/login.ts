@@ -1,6 +1,6 @@
 import { IAuthentication } from '../../../domain/useCases/authentication';
 import { InvalidParamError, MissingParamError } from '../../errors';
-import { badRequest, serverError } from '../../helpers/http-helper';
+import { badRequest, serverError, unauthorized } from '../../helpers/http-helper';
 import { IController, IHttpRequest, IHttpResponse } from '../../protocols';
 import { IEmailValidator } from '../signUp/signUp-protocols';
 
@@ -20,13 +20,16 @@ async handle (httpRequest: IHttpRequest): Promise<IHttpResponse> {
 				return badRequest(new MissingParamError(field));
 			}
 		};
-		const { email, password } = httpRequest.body;
 
+		const { email, password } = httpRequest.body;
 		const isValid = await this.emailValidator.isValid(email);
 		if (!isValid) {
 			return badRequest(new InvalidParamError('email'));
 		}
-		await this.authentication.auth(email, password);
+		const token = await this.authentication.auth(email, password);
+		if (!token) {
+			return unauthorized();
+		}
 	} catch (error) {
 		return serverError(error);
 	}
