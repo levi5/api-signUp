@@ -1,28 +1,39 @@
 import { InvalidParamError, MissingParamError } from '../../errors';
-import { badRequest } from '../../helpers/http-helper';
-import { IController, IHttpRequest, IHttpResponse } from '../../protocols';
-import { IEmailValidator } from '../signUp/signUp-protocols';
+import { badRequest, serverError, success, unauthorized } from '../../helpers/http-helper';
+import { IController, IHttpRequest, IHttpResponse, IEmailValidator, IAuthentication } from './login-protocols';
 
 export class LoginController implements IController {
 private readonly emailValidator:IEmailValidator;
-constructor (emailValidator:IEmailValidator) {
+private readonly authentication:IAuthentication;
+constructor (emailValidator:IEmailValidator, authentication:IAuthentication) {
 	this.emailValidator = emailValidator;
+	this.authentication = authentication;
 }
 
 async handle (httpRequest: IHttpRequest): Promise<IHttpResponse> {
-	const { email, password } = httpRequest.body;
+	try {
+		const requiredFields = ['email', 'password'];
+		for (const field of requiredFields) {
+			if (!httpRequest.body[field]) {
+				return badRequest(new MissingParamError(field));
+			}
+		};
 
-	if (!email) {
-		return new Promise(resolve => resolve(badRequest(new MissingParamError('email'))));
-	}
+		const { email, password } = httpRequest.body;
+		const isValid = await this.emailValidator.isValid(email);
+		if (!isValid) {
+			return badRequest(new InvalidParamError('email'));
+		}
+		const token = await this.authentication.auth(email, password);
+		if (!token) {
+			return unauthorized();
+		}
 
-	if (!password) {
-		return new Promise(resolve => resolve(badRequest(new MissingParamError('password'))));
-	}
-
-	const isValid = await this.emailValidator.isValid(email);
-	if (!isValid) {
-		return new Promise(resolve => resolve(badRequest(new InvalidParamError('email'))));
+		return success({
+			accessToken: token
+		});
+	} catch (error) {
+		return serverError(error);
 	}
 }
 }
