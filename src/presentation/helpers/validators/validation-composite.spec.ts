@@ -14,7 +14,6 @@ const makeValidation = ():IValidation => {
 			return null;
 		}
 	}
-
 	return new ValidationStub();
 };
 
