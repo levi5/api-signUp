@@ -1,7 +1,5 @@
 import { IValidation } from '../../../presentation/controllers/signUp/signUp-protocols';
-import { RequiredFieldValidation } from '../../../presentation/helpers/validators/required-field-validation';
-import { ValidationComposite } from '../../../presentation/helpers/validators/validation-composite';
-import { EmailValidation } from '../../../presentation/helpers/validators/email-validation';
+import { EmailValidation, RequiredFieldValidation, ValidationComposite } from '../../../presentation/helpers/validators';
 import { EmailValidatorAdapter } from '../../../utils/email-validator-adapter';
 
 export const makeLoginValidation = ():ValidationComposite => {
