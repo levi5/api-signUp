@@ -1,6 +1,6 @@
 import { SignUpController } from './SignUp';
 import { IAddAccount, IAddAccountModel, IAccountModel, IHttpRequest, IValidation } from './signUp-protocols';
-import { badRequest, serverError, success } from '../../helpers/http-helper';
+import { badRequest, serverError, success } from '../../helpers/http/http-helper';
 import { ServerError } from '../../errors/server-error';
 import { MissingParamError } from '../../errors';
 
