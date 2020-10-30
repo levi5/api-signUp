@@ -1,6 +1,6 @@
-import { ServerError, UnauthorizedError } from '../errors';
+import { ServerError, UnauthorizedError } from '../../errors';
 
-import { IHttpResponse } from '../protocols/http';
+import { IHttpResponse } from '../../protocols/http';
 
 export const unauthorized = (): IHttpResponse => {
 	return {

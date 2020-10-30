@@ -1,7 +1,8 @@
 import { MissingParamError } from '../../errors';
-import { badRequest, serverError, success, unauthorized } from '../../helpers/http-helper';
+import { badRequest, serverError, success, unauthorized } from '../../helpers/http/http-helper';
 import { IHttpRequest, IAuthentication, IValidation } from './login-protocols';
 import { LoginController } from './login';
+import { IAuthenticationModel } from '../../../domain/useCases/authentication';
 
 interface SutTypes {
     sut: LoginController,
@@ -11,7 +12,7 @@ interface SutTypes {
 
 const makeAuthentication = (): IAuthentication => {
 	class AuthenticationStub implements IAuthentication {
-		async auth (email: string, password:string): Promise<string> {
+		async auth (authentication:IAuthenticationModel): Promise<string> {
 			return new Promise(resolve => resolve('any_token'));
 		}
 	}
@@ -52,7 +53,7 @@ describe('Login Controller', () => {
 		const authSpy = jest.spyOn(authenticationStub, 'auth');
 
 		await sut.handle(makeFakeRequest());
-		expect(authSpy).toHaveBeenCalledWith('any_email@email.com', 'any_password');
+		expect(authSpy).toHaveBeenCalledWith({ email: 'any_email@email.com', password: 'any_password' });
 	});
 
 	test('Should return 401 if invalid credentials are provided', async () => {
