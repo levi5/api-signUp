@@ -1,5 +1,5 @@
-import { LoadAccountByEmailRepository } from '../../../data/protocols/db/load-account-by-email-repository';
-import { IAuthentication, IAuthenticationModel } from '../authentication';
+import { LoadAccountByEmailRepository } from '../../protocols/db/load-account-by-email-repository';
+import { IAuthentication, IAuthenticationModel } from '../../../domain/useCases/authentication';
 
 export class DbAuthentication implements IAuthentication {
 private readonly loadAccountByEmailRepository:LoadAccountByEmailRepository
