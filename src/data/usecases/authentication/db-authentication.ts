@@ -2,22 +2,22 @@ import {
 	IAuthentication,
 	IAuthenticationModel,
 	IHashComparer, LoadAccountByEmailRepository,
-	ITokenGenerator, IUpdateAccessTokenRepository
+	IEncrypter, IUpdateAccessTokenRepository
 } from './db-authentication-protocols';
 
 export class DbAuthentication implements IAuthentication {
 private readonly loadAccountByEmailRepository:LoadAccountByEmailRepository;
 private readonly hashComparer:IHashComparer;
-private readonly tokenGenerator:ITokenGenerator;
+private readonly encrypter:IEncrypter;
 private readonly updateAccessTokenRepository:IUpdateAccessTokenRepository;
 
 constructor (hashComparer:IHashComparer,
 	loadAccountByEmailRepository:LoadAccountByEmailRepository,
-	tokenGenerator:ITokenGenerator,
+	encrypter:IEncrypter,
 	updateAccessTokenRepository:IUpdateAccessTokenRepository) {
 	this.hashComparer = hashComparer;
 	this.loadAccountByEmailRepository = loadAccountByEmailRepository;
-	this.tokenGenerator = tokenGenerator;
+	this.encrypter = encrypter;
 	this.updateAccessTokenRepository = updateAccessTokenRepository;
 }
 
@@ -27,7 +27,7 @@ async auth (authentication: IAuthenticationModel): Promise<string> {
 		const isValid = await this.hashComparer.compare(authentication.password, account.password);
 
 		if (isValid) {
-			const accessToken = await this.tokenGenerator.generate(account.id);
+			const accessToken = await this.encrypter.encrypt(account.id);
 			await this.updateAccessTokenRepository.update(account.id, accessToken);
 			return accessToken;
 		}
