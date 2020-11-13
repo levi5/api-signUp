@@ -22,7 +22,7 @@ constructor (hashComparer:IHashComparer,
 }
 
 async auth (authentication: IAuthenticationModel): Promise<string> {
-	const account = await this.loadAccountByEmailRepository.load(authentication.email);
+	const account = await this.loadAccountByEmailRepository.loadByEmail(authentication.email);
 	if (account) {
 		const isValid = await this.hashComparer.compare(authentication.password, account.password);
 
