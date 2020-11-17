@@ -41,7 +41,8 @@ const makeFakeAccount = ():IAccountModel => (
 	{
 		id: 'valid_id',
 		name: 'valid_name',
-		email: 'valid_@email.com'
+		email: 'valid_@email.com',
+		password: 'hash_password'
 	}
 );
 

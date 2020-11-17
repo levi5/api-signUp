@@ -3,10 +3,9 @@ import { badRequest, serverError, success } from '../../helpers/http/http-helper
 import { IValidation } from '../../protocols/validation';
 
 export class SignUpController implements IController {
-	private readonly addAccount:IAddAccount;
-	private readonly validation:IValidation;
-
-	constructor (addAccount:IAddAccount, validation:IValidation) {
+	constructor (
+		private readonly addAccount:IAddAccount,
+		private readonly validation:IValidation) {
 		this.addAccount = addAccount;
 		this.validation = validation;
 	}
