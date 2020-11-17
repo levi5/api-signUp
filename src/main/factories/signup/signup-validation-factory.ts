@@ -1,4 +1,4 @@
-import { IValidation } from '../../../presentation/controllers/signUp/signUp-protocols';
+import { IValidation } from '../../../presentation/controllers/signUp/signup-controller-protocols';
 import { CompareFieldsValidation, EmailValidation, RequiredFieldValidation, ValidationComposite } from '../../../presentation/helpers/validators';
 import { EmailValidatorAdapter } from '../../../utils/email-validator-adapter';
 

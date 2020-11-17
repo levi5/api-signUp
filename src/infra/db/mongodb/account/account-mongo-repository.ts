@@ -1,6 +1,6 @@
 
-import { IAddAccountRepository } from '../../../../data/protocols/db/add-account-repository';
-import { LoadAccountByEmailRepository } from '../../../../data/protocols/db/load-account-by-email-repository';
+import { IAddAccountRepository } from '../../../../data/protocols/db/account/add-account-repository';
+import { LoadAccountByEmailRepository } from '../../../../data/protocols/db/account/load-account-by-email-repository';
 import { IUpdateAccessTokenRepository } from '../../../../data/usecases/authentication/db-authentication-protocols';
 import { IAccountModel } from '../../../../domain/model/account';
 import { IAddAccountModel } from '../../../../domain/useCases/add-account';

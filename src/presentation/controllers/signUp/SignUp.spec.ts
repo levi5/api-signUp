@@ -1,5 +1,5 @@
-import { SignUpController } from './SignUp';
-import { IAddAccount, IAddAccountModel, IAccountModel, IHttpRequest, IValidation } from './signUp-protocols';
+import { SignUpController } from './Signup-controller';
+import { IAddAccount, IAddAccountModel, IAccountModel, IHttpRequest, IValidation } from './signup-controller-protocols';
 import { badRequest, serverError, success } from '../../helpers/http/http-helper';
 import { ServerError } from '../../errors/server-error';
 import { MissingParamError } from '../../errors';
@@ -33,7 +33,8 @@ const makeFakeAccount = ():IAccountModel => (
 	{
 		id: 'valid_id',
 		name: 'valid_name',
-		email: 'valid_@email.com'
+		email: 'valid_@email.com',
+		password: 'hash_password'
 	}
 );
 
