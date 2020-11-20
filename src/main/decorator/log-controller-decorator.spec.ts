@@ -1,8 +1,8 @@
-import { ILogErrorRepository } from '../../data/protocols/db/log-error-repository';
+import { ILogErrorRepository } from '../../data/protocols/db/log/log-error-repository';
 import { IAccountModel } from '../../domain/model/account';
 import { serverError, success } from '../../presentation/helpers/http/http-helper';
 import { IController, IHttpRequest, IHttpResponse } from '../../presentation/protocols';
-import { LoggerControllerDecorator } from './log';
+import { LoggerControllerDecorator } from './log-controller-decorator';
 
 interface SutTypes {
     sut:LoggerControllerDecorator,
@@ -41,7 +41,8 @@ const makeFakeAccount = ():IAccountModel => (
 	{
 		id: 'valid_id',
 		name: 'valid_name',
-		email: 'valid_@email.com'
+		email: 'valid_@email.com',
+		password: 'hash_password'
 	}
 );
 

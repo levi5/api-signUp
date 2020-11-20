@@ -1,11 +1,10 @@
-import { ILogErrorRepository } from '../../data/protocols/db/log-error-repository';
+import { ILogErrorRepository } from '../../data/protocols/db/log/log-error-repository';
 import { IController, IHttpRequest, IHttpResponse } from '../../presentation/protocols';
 
 export class LoggerControllerDecorator implements IController {
-	private readonly controller:IController;
-	private readonly logErrorRepository:ILogErrorRepository;
-
-	constructor (controller:IController, logErrorRepository:ILogErrorRepository) {
+	constructor (
+		private readonly controller:IController,
+		private readonly logErrorRepository:ILogErrorRepository) {
 		this.controller = controller;
 		this.logErrorRepository = logErrorRepository;
 	}
