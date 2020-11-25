@@ -8,6 +8,7 @@ export class SignUpController implements IController {
 		private readonly authentication:IAuthentication,
 		private readonly validation:IValidation) {
 		this.addAccount = addAccount;
+		this.authentication = authentication;
 		this.validation = validation;
 	}
 
@@ -25,10 +26,9 @@ export class SignUpController implements IController {
 				email,
 				password
 			});
-			await this.authentication.auth({
-				email,
-				password
-			});
+
+			await this.authentication.auth({ email, password });
+
 			return success(account);
 		} catch (error) {
 			return serverError(error);
