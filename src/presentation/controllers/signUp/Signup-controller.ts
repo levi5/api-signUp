@@ -1,12 +1,14 @@
-import { IHttpRequest, IHttpResponse, IController, IAddAccount } from './signup-controller-protocols';
+import { IHttpRequest, IHttpResponse, IController, IAddAccount, IAuthentication } from './signup-controller-protocols';
 import { badRequest, serverError, success } from '../../helpers/http/http-helper';
 import { IValidation } from '../../protocols/validation';
 
 export class SignUpController implements IController {
 	constructor (
 		private readonly addAccount:IAddAccount,
+		private readonly authentication:IAuthentication,
 		private readonly validation:IValidation) {
 		this.addAccount = addAccount;
+		this.authentication = authentication;
 		this.validation = validation;
 	}
 
@@ -24,6 +26,9 @@ export class SignUpController implements IController {
 				email,
 				password
 			});
+
+			await this.authentication.auth({ email, password });
+
 			return success(account);
 		} catch (error) {
 			return serverError(error);
