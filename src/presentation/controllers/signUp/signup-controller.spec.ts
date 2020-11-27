@@ -1,4 +1,4 @@
-import { SignUpController } from './Signup-controller';
+import { SignUpController } from './signup-controller';
 import {
 	IAddAccount, IAddAccountModel, IAccountModel, IHttpRequest,
 	IValidation, IAuthentication, IAuthenticationModel
