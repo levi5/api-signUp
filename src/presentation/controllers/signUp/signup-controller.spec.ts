@@ -3,9 +3,8 @@ import {
 	IAddAccount, IAddAccountModel, IAccountModel, IHttpRequest,
 	IValidation, IAuthentication, IAuthenticationModel
 } from './signup-controller-protocols';
-import { badRequest, serverError, success } from '../../helpers/http/http-helper';
-import { ServerError } from '../../errors/server-error';
-import { MissingParamError } from '../../errors';
+import { badRequest, forbidden, serverError, success } from '../../helpers/http/http-helper';
+import { EmailInUseError, MissingParamError, ServerError } from '../../errors';
 
 interface SutTypes {
 	sut:SignUpController,
@@ -97,10 +96,17 @@ describe('SignUp Controller', () => {
 		expect(httpResponse).toEqual(serverError(new ServerError(null)));
 	});
 
+	test('Should return 403 if addAccount returns null', async () => {
+		const { sut, addAccountStub } = makeSut();
+		jest.spyOn(addAccountStub, 'add').mockReturnValueOnce(new Promise(resolve => resolve(null)));
+		const httpResponse = await sut.handle(makeFakeRequest());
+		expect(httpResponse).toEqual(forbidden(new EmailInUseError()));
+	});
+
 	test('Should return 200 if valid data provided', async () => {
 		const { sut } = makeSut();
 		const httpResponse = await sut.handle(makeFakeRequest());
-		expect(httpResponse).toEqual(success(makeFakeAccount()));
+		expect(httpResponse).toEqual(success({ accessToken: 'any_token' }));
 	});
 
 	test('Should call AddAccount with correct values', () => {
@@ -126,5 +132,12 @@ describe('SignUp Controller', () => {
 
 		await sut.handle(makeFakeRequest());
 		expect(authSpy).toHaveBeenCalledWith({ email: 'any_@email.com', password: 'any_password' });
+	});
+
+	test('Should return 500 if Authentication throws', async () => {
+		const { sut, authenticationStub } = makeSut();
+		jest.spyOn(authenticationStub, 'auth').mockReturnValueOnce(new Promise((resolve, reject) => reject(new Error())));
+		const httpResponse = await sut.handle(makeFakeRequest());
+		expect(httpResponse).toEqual(serverError(new Error()));
 	});
 });
