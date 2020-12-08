@@ -1,14 +1,14 @@
 import {
 	IAuthentication,
 	IAuthenticationModel,
-	IHashComparer, LoadAccountByEmailRepository,
+	IHashComparer, ILoadAccountByEmailRepository,
 	IEncrypter, IUpdateAccessTokenRepository
 } from './db-authentication-protocols';
 
 export class DbAuthentication implements IAuthentication {
 	constructor (
 	private readonly hashComparer:IHashComparer,
-	private readonly loadAccountByEmailRepository:LoadAccountByEmailRepository,
+	private readonly loadAccountByEmailRepository:ILoadAccountByEmailRepository,
 	private readonly encrypter:IEncrypter,
 	private readonly updateAccessTokenRepository:IUpdateAccessTokenRepository) {
 		this.hashComparer = hashComparer;

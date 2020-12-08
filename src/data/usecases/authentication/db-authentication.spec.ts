@@ -3,13 +3,13 @@ import { DbAuthentication } from './db-authentication';
 import {
 	IAccountModel,
 	IAuthenticationModel,
-	IHashComparer, LoadAccountByEmailRepository,
+	IHashComparer, ILoadAccountByEmailRepository,
 	IEncrypter, IUpdateAccessTokenRepository
 } from './db-authentication-protocols';
 
 interface SutTypes {
     sut:DbAuthentication,
-	loadAccountByEmailRepositoryStub:LoadAccountByEmailRepository
+	loadAccountByEmailRepositoryStub:ILoadAccountByEmailRepository
 	hashComparerStub:IHashComparer,
 	encrypterStub: IEncrypter,
 	updateAccessTokenRepositoryStub:IUpdateAccessTokenRepository
@@ -30,8 +30,8 @@ const makeFakeAuthentication = ():IAuthenticationModel => (
 	}
 );
 
-const makeLoadAccountByEmailRepositoryStub = ():LoadAccountByEmailRepository => {
-	class LoadAccountByEmailRepositoryStub implements LoadAccountByEmailRepository {
+const makeLoadAccountByEmailRepositoryStub = ():ILoadAccountByEmailRepository => {
+	class LoadAccountByEmailRepositoryStub implements ILoadAccountByEmailRepository {
 		async loadByEmail (email:string):Promise<IAccountModel> {
 			return new Promise(resolve => resolve(makeFakeAccount()));
 		}
