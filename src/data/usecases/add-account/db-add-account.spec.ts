@@ -1,11 +1,11 @@
-import { IHasher, IAccountModel, IAddAccountModel, IAddAccountRepository, LoadAccountByEmailRepository } from './db-add-account-protocols';
+import { IHasher, IAccountModel, IAddAccountModel, IAddAccountRepository, ILoadAccountByEmailRepository } from './db-add-account-protocols';
 import { DbAddAccount } from './db-add-account';
 
 interface SutTypes{
     sut: DbAddAccount,
 	hasherStub: IHasher,
 	addAccountRepositoryStub: IAddAccountRepository,
-	loadAccountByEmailRepositoryStub:LoadAccountByEmailRepository
+	loadAccountByEmailRepositoryStub:ILoadAccountByEmailRepository
 }
 
 const makeHasher = (): IHasher => {
@@ -17,8 +17,8 @@ const makeHasher = (): IHasher => {
 	return new HasherStub();
 };
 
-const makeLoadAccountByEmailRepositoryStub = ():LoadAccountByEmailRepository => {
-	class LoadAccountByEmailRepositoryStub implements LoadAccountByEmailRepository {
+const makeLoadAccountByEmailRepositoryStub = ():ILoadAccountByEmailRepository => {
+	class LoadAccountByEmailRepositoryStub implements ILoadAccountByEmailRepository {
 		async loadByEmail (email:string):Promise<IAccountModel> {
 			return new Promise(resolve => resolve(null));
 		}
