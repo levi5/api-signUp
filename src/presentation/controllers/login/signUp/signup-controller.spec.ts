@@ -3,8 +3,8 @@ import {
 	IAddAccount, IAddAccountModel, IAccountModel, IHttpRequest,
 	IValidation, IAuthentication, IAuthenticationModel
 } from './signup-controller-protocols';
-import { badRequest, forbidden, serverError, success } from '../../helpers/http/http-helper';
-import { EmailInUseError, MissingParamError, ServerError } from '../../errors';
+import { badRequest, forbidden, serverError, success } from '../../../helpers/http/http-helper';
+import { EmailInUseError, MissingParamError, ServerError } from '../../../errors';
 
 interface SutTypes {
 	sut:SignUpController,
