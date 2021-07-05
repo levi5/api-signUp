@@ -10,7 +10,7 @@
     "@types/jest": "^26.0.15",
     "@types/jsonwebtoken": "^8.5.0",
     "@types/mongodb": "^3.5.27",
-    "@types/node": "^15.0.1",
+    "@types/node": "^16.0.0",
     "@types/supertest": "^2.0.10",
     "@types/validator": "^13.1.0",
     "@typescript-eslint/eslint-plugin": "^4.1.0",
