@@ -7,7 +7,7 @@
     "@shelf/jest-mongodb": "^4.0.0",
     "@types/bcrypt": "^5.0.0",
     "@types/express": "^4.17.8",
-    "@types/jest": "^28.1.1",
+    "@types/jest": "^29.1.2",
     "@types/jsonwebtoken": "^8.5.0",
     "@types/mongodb": "^4.0.7",
     "@types/node": "^18.0.0",
@@ -34,10 +34,10 @@
     "start": "sucrase-node ./src/main/server.ts ",
     "test": "jest --passWithNoTests --silent --noStackTrace --runInBand",
     "test:verbose": "jest --passWithNoTests --runInBand",
-    "test:unit": "yarn test -- --watch -c jest-unit-config.js",
-    "test:integration": "yarn test -- --watch -c jest-integration-config.js",
-    "test:staged": "yarn test -- --findRelatedTests",
-    "test:ci": "yarn test -- --coverage"
+    "test:unit": "yarn test  --watchAll -c './jest-unit-config.js'",
+    "test:integration": "yarn test --watchAll -c './jest-integration-config.js'",
+    "test:staged": "yarn test --findRelatedTests",
+    "test:ci": "yarn test  --coverage"
   },
   "dependencies": {
     "bcrypt": "^5.0.0",
